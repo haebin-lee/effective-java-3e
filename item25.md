@@ -34,7 +34,7 @@ class Desert {
 ```
 
 
-```
+```bash
 javac Main.java Dessert.java
 ```
 > 컴파일 오류가 나면서, Utensil과 Dessert 클래스를 중복 정의했다고 알려줄 것이다. 
@@ -43,14 +43,13 @@ javac Main.java Dessert.java
 >> 3) 두번째 명령 인수로 넘어온 `Dessert.java`를 처리하려고 할 때 같은 클래스 정의가 이미 있음을 알게 됨
 >> 4) 컴파일 오류
 
-```
+```bash
 javac Main.java 
 javac Main.java Utensil.java
 ```
 > 결과: pancake
 
-```
-javac Main.java
+```bash
 javac Main.java Dessert.java
 ```
 > 결과: potpie

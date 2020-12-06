@@ -32,3 +32,116 @@ List 인터페이스에 추가된 sort 메소드를 이용하면 더 짧아진�
 words.sort(comparingInt(String::length))
 ```
 
+상수별 클래스 몸체와 데이터를 사용한 열거 타입
+```java
+public enum Operation {
+    PLUS("+") {
+        public double apply(double x, double y{
+            return x+y;
+        }
+    },
+    MINUS("-"){
+        public double apply(double x, double y{
+            return x-y;
+        }
+    },
+    TIMES("*"){
+        public double apply(double x, double y){
+            return x*y;
+        }
+    }, 
+    DIVIDE("/"){
+        public double apply(double x, double y){
+            return x/y;
+        }
+    };
+
+    private final String symbol; 
+    Operation(String symbol) { 
+        this.symbol = symbol;
+    }
+
+    @Override 
+    public String toString() {
+        return symbol; 
+    }
+    public abstract double apply(double x, double y);
+}
+```
+
+함수 객체(람다)를 인스턴스 필드에 저장해 상수별 동작을 구현한 열거 타입
+```java
+public enum Operation {
+   
+    PLUS("+", (x, y) -> x + y), 
+    MINUS("-", (x, y) -> x - y),
+    TIMES("*", (x, y) -> x * y), 
+    DIVIDE("/", (x, y) -> x / y)
+    ;
+    private final String symbol;
+    private final DoubleBinaryOperator op;
+    
+    Operation(String symbol, DoubleBinaryOperator op){
+        this.symbol = symbol;
+        this.op = op;
+    }
+
+    @Override
+    public String toString() {
+        return symbol;
+    }
+    public double apply(double x, double y){
+        return op.applyAsDouble(x, y);
+    }
+}
+```
+```
+DoubleBinaryOperator는 java.util.function 패키지가 제공하는 다양한 함수 인터페이스 중 하나로 double 타입 결과를 돌려준다
+```
+
+**람다는 이름이 없고, 문서화도 못한다. 따라서 코드 자체로 동작이 명확히 설명되지 않거나 코드 줄 수가 많아지면 람다를 쓰지 말아야 한다**
+
+**람다는 한 줄일 때 가장 좋고, 세 줄 안에 끝내는게 가장 좋다. 세 줄을 넘어가면 가독성이 심하게 나빠진다**
+
+**람다는 함수형 인터페이스에서만 쓰인다**
+
+**람다를 직렬화하는 일은 극히 삼가야 한다(익명 클래스의 인스턴스도 마찬가지이다)**
+
+### 람다가 아닌 익명클래스를 써야하는 경우
+1. 추상클래스의 인스턴스를 만들 때 람다를 쓸 수 없으니 익명 클래스를 써야 한다.
+예시 
+```java
+public class Main {
+
+    public static void main(String[] args){
+
+        introduction(new Person(){
+            @Override
+            String whoAmI() {
+                return "My name is Lucy";
+            }
+        });
+    }
+    static void introduction(Person p){
+        System.out.println(p.whoAmI());
+    }
+}
+
+abstract class Person {
+    abstract String whoAmI();
+}
+```
+--> 적절한 예인지 모르겠지만 추상클래스의 인스턴스를 생성할 때에는 람다식이 불가능하다 이렇게 익명 클래스로 해야한다!
+
+2. 추상 메서드가 여러 개인 인터페이스의 인스턴스를 만들 때도 익명 클래스를 쓸 수 있다. 
+예시
+```java
+
+```
+3. 람다는 자신을 참조 할 수 없다( 람다의 this 키워드는 바깥 인스턴스를 가리킨다.) 반면, 익명 클래스에서의 this는 익명 클래스의 인스턴스 자신을 가리킨다. 그래서 함수 객체가 자신을 참조해야 한다면 반드시 익명 클래스를 써야 한다.
+
+
+```
+핵심정리 
+익명클래스는 (함수형 인터페이스가 아닌) 타입의 인스턴스를 만들때만 사용하라
+```
