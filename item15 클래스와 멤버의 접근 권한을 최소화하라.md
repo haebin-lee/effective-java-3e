@@ -43,14 +43,13 @@ private static final Thing[] PRIVATE_VALUES ={...};
 public static final List<Thing> VALUES = Collections.unmodifiableList(ARrays.asList(PRIVATE_VALUES));
 ```
 
-gorufcor 2) 배열을 private으로 만들고 그 복사본을 반환하는 public 메서드를 추가하는 방법이다. 
+해결책 2) 배열을 private으로 만들고 그 복사본을 반환하는 public 메서드를 추가하는 방법이다. 
 ```java
 private static final Thing[] PRIVATE_VALUES = {...};
 publci static final Thing[] values () {
     return PRIVATE_VALUES.clone();
 }
 ```
-
 
 ```
 핵심 정리 
