@@ -86,12 +86,12 @@ public class Stack<E> {
 
 ```java
 // 배열 elements는 push(E)로 넘어온 E 인스턴스만 담는다. 
-    // 따라서 타입 안정성을 보장하지만, 
-    // 이 배열의 런타임 타입은 E[]가 아닌 Object[]다.
-    @SuppressWarnings("unchecked")
-    public Stack2() {
-        elements = (E[])new Object[DEFAULT_INITIAL_CAPACITY];
-    }
+// 따라서 타입 안정성을 보장하지만, 
+// 이 배열의 런타임 타입은 E[]가 아닌 Object[]다.
+@SuppressWarnings("unchecked")
+public Stack2() {
+    elements = (E[])new Object[DEFAULT_INITIAL_CAPACITY];
+}
 ```
 
 2. elements의 필드의 타입을 `E[]`에서 `Object[]`로 바꾸는 것이다. 
